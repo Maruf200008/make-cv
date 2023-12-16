@@ -2,10 +2,11 @@ import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import exampleCV from "../images/exampleCv.jpg";
 import heroImg from "../images/hero1.jpg";
+import trustPilotLogo from "../images/trustPilotLogo.jpg";
 
 export default function HeroSection() {
   return (
-    <div className=" grid grid-cols-2 gap-[120px] items-center">
+    <div className=" grid grid-cols-2 gap-[120px] items-center ">
       <div className=" space-y-10">
         <h1 className=" text-[65px] font-extrabold leading-[80px]">
           Create your CV like a pro
@@ -18,13 +19,26 @@ export default function HeroSection() {
           + Create your CV
         </button>
         <div className=" flex items-center gap-5">
-          <div>
-            <div>
+          <div className=" flex items-center gap-1">
+            <div className=" bg-[#51b27e] p-2 rounded-md text-white text-[12px]">
+              <FaStar />
+            </div>
+            <div className=" bg-[#51b27e] p-2 rounded-md text-white text-[12px]">
+              <FaStar />
+            </div>
+            <div className=" bg-[#51b27e] p-2 rounded-md text-white text-[12px]">
+              <FaStar />
+            </div>
+            <div className=" bg-[#51b27e] p-2 rounded-md text-white text-[12px]">
               <FaStar />
             </div>
           </div>
-          <div>sfasfdadsf</div>
-          <div>sfasfdadsf</div>
+          <div className=" text-lg text-neutral-500">
+            Excellent, <span className=" text-black">4.5</span> on
+          </div>
+          <div>
+            <Image src={trustPilotLogo} alt="trustPilotLogo" width={130} />
+          </div>
         </div>
       </div>
       <div className=" relative">
@@ -33,6 +47,7 @@ export default function HeroSection() {
           alt="heroImg"
           className=" rounded-tr-[80px] rounded-bl-[80px]"
         />
+        <div className=" w-[300px] h-[300px] rounded-full absolute bg-[#ffd86f] -bottom-20 -z-30 -right-5"></div>
         <div className=" rounded-br-[50px] bg-neutral-200  w-[300px] h-[320px] absolute bottom-[50px] left-[-40px] flex items-center justify-center flex-col space-y-5">
           <div></div>
           <div className=" relative">
