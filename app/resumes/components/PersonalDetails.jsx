@@ -1,27 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-import { IoIosArrowDown } from "react-icons/io";
-
-import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaCalendarDays } from "react-icons/fa6";
-import { IoIosArrowUp } from "react-icons/io";
 
+import Image from "next/image";
 import { MdEdit, MdOutlineRefresh } from "react-icons/md";
 import AddSkills from "./cvDetails/AddSkills";
+import AdditionalFields from "./cvDetails/AdditionalFields";
+import Education from "./cvDetails/Education";
+import WorkExperiece from "./cvDetails/WorkExperience";
 
 export default function PersonalDetails() {
   const [title, setTitle] = useState("Personal details");
-  const [toggle, setToggle] = useState(false);
   const [personalProfileTitle, setPersonalProfileTitle] =
     useState("Personal profile");
-  const [selectDate, setSelectDate] = useState(null);
+  const [personalProfile, setPersonalProfile] = useState("");
 
-  console.log(selectDate);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [photo, setPhoto] = useState("");
+  const [email, setEmail] = useState("");
+  const [position, setPosition] = useState("");
+
+  const imgRef = useRef(null);
+
+  const handleImageClick = () => {
+    imgRef.current.click();
+  };
+
   return (
-    <div className=" space-y-3">
+    <div className=" space-y-3 p-4 bg-slate-400">
       <div className=" flex items-center gap-1 ">
         <input
           type="text"
@@ -39,6 +48,8 @@ export default function PersonalDetails() {
         <div className=" space-y-1">
           <label className=" text-neutral-500 text-lg">First name</label>
           <input
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
             type="text"
             className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
           />
@@ -46,6 +57,8 @@ export default function PersonalDetails() {
         <div className=" space-y-1">
           <label className=" text-neutral-500 text-lg">Last name</label>
           <input
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
             type="text"
             className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
           />
@@ -54,31 +67,66 @@ export default function PersonalDetails() {
       <div className=" space-y-1">
         <div className=" flex gap-4 items-center cursor-pointer">
           <label className=" text-neutral-500 text-lg">Photo</label>
-          <div className=" p-1 rounded-md text-neutral-500 text-xl hover:bg-neutral-200 ease-in duration-300">
+          <div
+            onClick={() => setPhoto("")}
+            className=" p-1 rounded-md text-neutral-500 text-xl hover:bg-neutral-200 ease-in duration-300"
+          >
             <MdOutlineRefresh />
           </div>
         </div>
 
-        <div className="border  border-r-neutral-200 rounded-md p-4 w-full">
-          <label for="dropzone-file" className=" flex items-center gap-5">
-            <div className=" w-[35px] border border-neutral-300 h-[35px] bg-neutral-200 rounded-full" />
-            <p className=" text-neutral-500">
-              <span className=" font-semibold">Choose a file</span> or drag it
-              here
-            </p>
-          </label>
-          <input
-            id="dropzone-file"
-            type="file"
-            placeholder="dsfasdfasd"
-            className=" hidden"
-          />
-        </div>
+        {photo ? (
+          <div
+            onClick={handleImageClick}
+            className="border  border-r-neutral-200 rounded-md p-4 w-full"
+          >
+            <label for="dropzone-file" className=" flex items-center gap-5">
+              <Image
+                src={URL.createObjectURL(photo)}
+                alt="Photo"
+                width={40}
+                height={30}
+                className=" rounded-full h-[35px] w-[35px] bg-slate-200 overflow-hidden"
+              />
+              <p className=" text-neutral-500">
+                <span className=" font-semibold">Choose a file</span> or drag it
+                here
+              </p>
+            </label>
+            <input
+              type="file"
+              ref={imgRef}
+              onChange={() => setPhoto(event.target.files[0])}
+              className=" hidden"
+            />
+          </div>
+        ) : (
+          <div
+            onClick={handleImageClick}
+            className="border  border-r-neutral-200 rounded-md p-4 w-full"
+          >
+            <label for="dropzone-file" className=" flex items-center gap-5">
+              <div className=" w-[35px] border border-neutral-300 h-[35px] bg-neutral-200 rounded-full" />
+              <p className=" text-neutral-500">
+                <span className=" font-semibold">Choose a file</span> or drag it
+                here
+              </p>
+            </label>
+            <input
+              onChange={() => setPhoto(event.target.files[0])}
+              type="file"
+              ref={imgRef}
+              className=" hidden"
+            />
+          </div>
+        )}
       </div>
       <div className=" space-y-1">
         <label className=" text-neutral-500 text-lg">Email address</label>
         <input
-          type="text"
+          value={email}
+          type="email"
+          onChange={(e) => setEmail(e.target.value)}
           className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
         />
       </div>
@@ -86,156 +134,13 @@ export default function PersonalDetails() {
         <label className=" text-neutral-500 text-lg">Position</label>
         <input
           placeholder="e.g. Service Designer"
+          value={position}
+          onChange={(e) => setPosition(e.target.value)}
           type="text"
           className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
         />
       </div>
-      <div className=" border-b pb-5">
-        <div>
-          <h2>
-            <button
-              type="button"
-              onClick={() => setToggle(!toggle)}
-              className="flex items-center text-primary font-semibold gap-3 hover:underline "
-            >
-              <span>Show Additional Fields</span>
-              <div>{toggle ? <IoIosArrowUp /> : <IoIosArrowDown />}</div>
-            </button>
-          </h2>
-          <div className={toggle ? "mt-5 space-y-3" : " hidden"}>
-            <div className="  grid grid-cols-2 gap-4 ">
-              <div className=" space-y-1">
-                <label className=" text-neutral-500 text-lg">
-                  Phone number
-                </label>
-                <input
-                  type="text"
-                  className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
-                />
-              </div>
-              <div className=" space-y-1">
-                <label className=" text-neutral-500 text-lg">Address</label>
-                <input
-                  type="text"
-                  className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
-                />
-              </div>
-            </div>
-            <div className="  grid grid-cols-2 gap-4 ">
-              <div className=" space-y-1">
-                <label className=" text-neutral-500 text-lg">Postal code</label>
-                <input
-                  type="text"
-                  className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
-                />
-              </div>
-              <div className=" space-y-1">
-                <label className=" text-neutral-500 text-lg">City</label>
-                <input
-                  type="text"
-                  className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
-                />
-              </div>
-            </div>
-            <div className="  grid grid-cols-2 gap-4 ">
-              <div className=" space-y-1">
-                <label className=" text-neutral-500 text-lg">
-                  Driving licenses
-                </label>
-                <input
-                  type="text"
-                  className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
-                />
-              </div>
-              <div className=" space-y-1">
-                <label className=" text-neutral-500 text-lg">Gender</label>
-                <select className="border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full">
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </select>
-              </div>
-            </div>
-            <div className="  grid grid-cols-2 gap-4 ">
-              <div className=" space-y-1">
-                <div className=" flex gap-4 items-center cursor-pointer">
-                  <label className=" text-neutral-500 text-lg">
-                    Date of birth
-                  </label>
-                  <div
-                    onClick={() => setSelectDate(null)}
-                    className=" p-1 rounded-md text-neutral-500 text-xl hover:bg-neutral-200 ease-in duration-300"
-                  >
-                    <MdOutlineRefresh />
-                  </div>
-                </div>
-                <div className="border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full ">
-                  <label className="flex items-center justify-between">
-                    <div>
-                      <ReactDatePicker
-                        className=" focus:outline-none"
-                        selected={selectDate}
-                        onChange={(date) => setSelectDate(date)}
-                      />
-                    </div>
-                    <div className=" text-neutral-600">
-                      <FaCalendarDays />
-                    </div>
-                  </label>
-                </div>
-                <div className=" absolute"></div>
-              </div>
-              <div className=" space-y-1">
-                <label className=" text-neutral-500 text-lg">
-                  Place of birth
-                </label>
-                <input
-                  type="text"
-                  className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
-                />
-              </div>
-            </div>
-            <div className="  grid grid-cols-2 gap-4 ">
-              <div className=" space-y-1">
-                <label className=" text-neutral-500 text-lg">Nationality</label>
-                <input
-                  type="text"
-                  className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
-                />
-              </div>
-              <div className=" space-y-1">
-                <label className=" text-neutral-500 text-lg">
-                  Marital Status
-                </label>
-                <select className="border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full">
-                  <option value="Unmarried">Unmarried</option>
-                  <option value="Living together">Living together</option>
-                  <option value="Married">Married</option>
-                  <option value="Divorced">Divorced</option>
-                  <option value="Widowhood">Widowhood</option>
-                </select>
-              </div>
-            </div>
-            <div className="  grid grid-cols-2 gap-4 ">
-              <div className=" space-y-1">
-                <label className=" text-neutral-500 text-lg">Linkedin</label>
-                <input
-                  type="text"
-                  className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
-                />
-              </div>
-              <div className=" space-y-1">
-                <label className=" text-neutral-500 text-lg">
-                  Personal website
-                </label>
-                <input
-                  type="text"
-                  className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <AdditionalFields />
       <div className=" mt-7 border-b pb-5">
         <div className=" flex items-center gap-1 ">
           <input
@@ -257,14 +162,16 @@ export default function PersonalDetails() {
         <div>
           <textarea
             className=" w-full focus:outline-none mt-3 border rounded-md resize-none p-4"
-            name="asdfas"
-            id=""
+            value={personalProfile}
+            onChange={(e) => setPersonalProfile(e.target.value)}
             cols="30"
             rows="10"
           ></textarea>
         </div>
       </div>
       <AddSkills />
+      <WorkExperiece />
+      <Education />
     </div>
   );
 }

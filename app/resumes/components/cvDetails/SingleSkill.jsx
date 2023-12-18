@@ -7,7 +7,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 export default function SingleSkill({ id, handleDelete }) {
   const [skillToggle, setSkillToggle] = useState(true);
-  const [skillLavel, setSkillLavel] = useState("Beginner");
+  const [lavel, setLavel] = useState("Beginner");
   const [skillIndex, setSkillIndex] = useState(0);
   const [skill, setSkill] = useState("Untitled");
   const skillData = [
@@ -18,11 +18,12 @@ export default function SingleSkill({ id, handleDelete }) {
     "Expert",
   ];
 
+  console.log(lavel);
+
   const handleSkill = (value) => {
-    console.log(value);
     const { index, skillLavel } = value;
     setSkillIndex(index);
-    setSkillLavel(skillLavel);
+    setLavel(skillLavel);
   };
   return (
     <div>
@@ -71,7 +72,7 @@ export default function SingleSkill({ id, handleDelete }) {
           <div>
             <div className=" flex items-center justify-between">
               <label className=" text-neutral-500 text-lg">Level</label>
-              <label className=" text-neutral-500 text-lg">{skillLavel}</label>
+              <label className=" text-neutral-500 text-lg">{lavel}</label>
             </div>
 
             <div>
@@ -83,7 +84,6 @@ export default function SingleSkill({ id, handleDelete }) {
                         return (
                           <th
                             key={index}
-                            scope="col"
                             onClick={() =>
                               handleSkill({
                                 index: index + 1,
