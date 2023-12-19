@@ -7,7 +7,7 @@ export default function CvDetails() {
       <div className=" h-[1000px] overflow-auto ">
         <PersonalDetails />
       </div>
-      <div className="  flex p-10 w-full bg-slate-200">
+      <div className="  flex pl-5 w-full">
         <PDFView />
       </div>
     </div>

@@ -89,7 +89,7 @@ export default function SingleEducation({ id, handleDelete }) {
           </div>
           <div>
             <div className=" flex items-center gap-4">
-              <div className=" flex items-center justify-between gap-3  w-full">
+              <div className="flex items-center  gap-1  w-full">
                 <div className=" space-y-1 w-full">
                   <div className=" cursor-pointer">
                     <label className=" text-neutral-500 text-lg">

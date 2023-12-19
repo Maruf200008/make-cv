@@ -30,7 +30,7 @@ export default function PersonalDetails() {
   };
 
   return (
-    <div className=" space-y-3 p-4 bg-slate-400">
+    <div className=" space-y-3 p-4 ">
       <div className=" flex items-center gap-1 ">
         <input
           type="text"
