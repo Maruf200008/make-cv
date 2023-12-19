@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 
 import "react-datepicker/dist/react-datepicker.css";
 
+import useResumeStore from "@/app/store/useResumesStore";
 import Image from "next/image";
 import { MdEdit, MdOutlineRefresh } from "react-icons/md";
 import AddSkills from "./cvDetails/AddSkills";
@@ -12,7 +13,7 @@ import Education from "./cvDetails/Education";
 import WorkExperiece from "./cvDetails/WorkExperience";
 
 export default function PersonalDetails() {
-  const [title, setTitle] = useState("Personal details");
+  const [personalDetails, setPersonalDetails] = useState("Personal details");
   const [personalProfileTitle, setPersonalProfileTitle] =
     useState("Personal profile");
   const [personalProfile, setPersonalProfile] = useState("");
@@ -25,31 +26,87 @@ export default function PersonalDetails() {
 
   const imgRef = useRef(null);
 
+  const {
+    updateFirstName,
+    updateLastName,
+    updatePhoto,
+    updateEmail,
+    updatePosition,
+    updatePersonalProfileTitle,
+    updatePersonalProfile,
+    updatePersonalDetail,
+  } = useResumeStore((state) => state);
+
   const handleImageClick = () => {
     imgRef.current.click();
   };
 
+  const handlePersonalDetails = (e) => {
+    setPersonalDetails(e.target.value);
+    updatePersonalDetail(e.target.value);
+  };
+
+  const handleFirstName = (e) => {
+    setFirstName(e.target.value);
+
+    updateFirstName(e.target.value);
+  };
+
+  const handleLastName = (e) => {
+    setLastName(e.target.value);
+    updateLastName(e.target.value);
+  };
+  const handlePhoto = (e) => {
+    e.preventDefault();
+    setPhoto(e.target.files[0]);
+    updatePhoto(e.target.files[0]);
+  };
+
+  const handleRemovePhoto = () => {
+    setPhoto("");
+    updatePhoto("");
+  };
+
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+    updateEmail(e.target.value);
+  };
+  const handlePosition = (e) => {
+    setPosition(e.target.value);
+    updatePosition(e.target.value);
+  };
+  const handlePersonalProfile = (e) => {
+    setPersonalProfile(e.target.value);
+    updatePersonalProfile(e.target.value);
+  };
+  const handlePersonalProfileTitle = (e) => {
+    setPersonalProfileTitle(e.target.value);
+    updatePersonalProfileTitle(e.target.value);
+  };
+
   return (
     <div className=" space-y-3 p-4 ">
+      {/* Personal details */}
       <div className=" flex items-center gap-1 ">
         <input
           type="text"
           placeholder="Personal Details"
           className=" focus:outline-none text-[25px] font-extrabold py-2 w-[220px]"
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={handlePersonalDetails}
           width={20}
-          value={title}
+          value={personalDetails}
         />
         <div className=" text-[25px] text-neutral-500">
           <MdEdit />
         </div>
       </div>
+      {/*Name */}
       <div className="  grid grid-cols-2 gap-4 ">
         <div className=" space-y-1">
           <label className=" text-neutral-500 text-lg">First name</label>
           <input
             value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={handleFirstName}
             type="text"
             className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
           />
@@ -58,17 +115,18 @@ export default function PersonalDetails() {
           <label className=" text-neutral-500 text-lg">Last name</label>
           <input
             value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            onChange={handleLastName}
             type="text"
             className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
           />
         </div>
       </div>
+      {/* Photo */}
       <div className=" space-y-1">
         <div className=" flex gap-4 items-center cursor-pointer">
           <label className=" text-neutral-500 text-lg">Photo</label>
           <div
-            onClick={() => setPhoto("")}
+            onClick={handleRemovePhoto}
             className=" p-1 rounded-md text-neutral-500 text-xl hover:bg-neutral-200 ease-in duration-300"
           >
             <MdOutlineRefresh />
@@ -96,7 +154,7 @@ export default function PersonalDetails() {
             <input
               type="file"
               ref={imgRef}
-              onChange={() => setPhoto(event.target.files[0])}
+              onChange={handlePhoto}
               className=" hidden"
             />
           </div>
@@ -113,7 +171,7 @@ export default function PersonalDetails() {
               </p>
             </label>
             <input
-              onChange={() => setPhoto(event.target.files[0])}
+              onChange={handlePhoto}
               type="file"
               ref={imgRef}
               className=" hidden"
@@ -121,33 +179,36 @@ export default function PersonalDetails() {
           </div>
         )}
       </div>
+      {/* Email address */}
       <div className=" space-y-1">
         <label className=" text-neutral-500 text-lg">Email address</label>
         <input
           value={email}
           type="email"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleEmail}
           className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
         />
       </div>
+      {/* Position */}
       <div className=" space-y-1">
         <label className=" text-neutral-500 text-lg">Position</label>
         <input
           placeholder="e.g. Service Designer"
           value={position}
-          onChange={(e) => setPosition(e.target.value)}
+          onChange={handlePosition}
           type="text"
           className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
         />
       </div>
       <AdditionalFields />
+      {/* Personal profile */}
       <div className=" mt-7 border-b pb-5">
         <div className=" flex items-center gap-1 ">
           <input
             type="text"
             placeholder="Personal profile"
             className=" focus:outline-none text-[20px] font-semibold py-2 w-[180px]"
-            onChange={(e) => setPersonalProfileTitle(e.target.value)}
+            onChange={handlePersonalProfileTitle}
             width={20}
             value={personalProfileTitle}
           />
@@ -163,7 +224,7 @@ export default function PersonalDetails() {
           <textarea
             className=" w-full focus:outline-none mt-3 border rounded-md resize-none p-4"
             value={personalProfile}
-            onChange={(e) => setPersonalProfile(e.target.value)}
+            onChange={handlePersonalProfile}
             cols="30"
             rows="10"
           ></textarea>

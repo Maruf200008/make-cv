@@ -1,70 +1,301 @@
+"use client";
+import useResumeStore from "@/app/store/useResumesStore";
 import Image from "next/image";
-import { FaCalendarAlt, FaUser } from "react-icons/fa";
-import { FaPhone } from "react-icons/fa6";
+import { FaCalendarAlt, FaCarAlt, FaUser } from "react-icons/fa";
+import { FaIdCardClip, FaLocationDot, FaPhone, FaStar } from "react-icons/fa6";
+import { ImManWoman } from "react-icons/im";
 import { IoMdHome } from "react-icons/io";
 import { IoMailSharp } from "react-icons/io5";
-import profileImg from "../../../images/profileImg.jpg";
+import { LuLink } from "react-icons/lu";
+import { MdComputer, MdLanguage } from "react-icons/md";
 
 export default function CvLeftView() {
+  const skillsData = [
+    {
+      id: 1,
+      title: "Node",
+      level: "Beginner",
+    },
+    {
+      id: 2,
+      title: "Next js",
+      level: "Average",
+    },
+    {
+      id: 3,
+      title: "Redux",
+      level: "Skillful",
+    },
+    {
+      id: 4,
+      title: "Tailwind Css",
+      level: "Experienced",
+    },
+    {
+      id: 5,
+      title: "TypeScript",
+      level: "Expert",
+    },
+  ];
+
+  const resumeData = useResumeStore((state) => state.resumeData);
+  const {
+    firstName,
+    lastName,
+    personalDetail,
+    photo,
+    email,
+    phone,
+    address,
+    postalCode,
+    city,
+    drvingLicenses,
+    gender,
+    dateOfBirth,
+    placeOfBirth,
+    nationality,
+    maritalStatus,
+    linkedin,
+    personalWebsite,
+  } = resumeData || {};
+
+  console.log(gender);
+
+  let contentAddress;
+  if (address && !city && !postalCode) {
+    contentAddress = address;
+  } else if (address && !city && postalCode) {
+    contentAddress = `${address}, ${postalCode}`;
+  } else if (address && city && !postalCode) {
+    contentAddress = `${address}, ${city}`;
+  } else if (address && city && postalCode) {
+    contentAddress = `${address}, ${city}, ${postalCode}`;
+  }
+
   return (
     <div className=" px-4 my-4">
       <div className=" space-y-4">
-        <Image
-          src={profileImg}
-          alt="profileImg"
-          className="h-[150px] w-[150px] border-2 border-white overflow-hidden rounded-full justify-center  flex items-center mx-auto"
-        />
-        <div className=" text-white space-y-2">
-          <h3 className=" uppercase font-semibold">Personal Details</h3>
+        {photo && (
+          <Image
+            src={URL.createObjectURL(photo)}
+            alt="profileImg"
+            height={150}
+            width={150}
+            className="h-[150px] w-[150px] object-cover border-2 border-white overflow-hidden rounded-full justify-center  flex items-center mx-auto"
+          />
+        )}
+        <div className=" text-white space-y-2 ">
+          <h3 className=" uppercase font-semibold ">
+            {personalDetail === "" ? "Personal Details" : personalDetail}
+          </h3>
           {/* name */}
-          <div className=" flex  gap-3 text-[12px]">
-            <div className="text-[14px]">
-              <FaUser />
+          {firstName || lastName ? (
+            <div className=" flex  gap-3 text-[12px]">
+              <div className="text-[14px]">
+                <FaUser />
+              </div>
+              <div className="text-style">
+                <h3 className=" font-semibold">Name</h3>
+                <p>
+                  {firstName && !lastName
+                    ? firstName
+                    : firstName + " " + lastName}
+                </p>
+              </div>
             </div>
-            <div className="text-style">
-              <h3 className=" font-semibold">Name</h3>
-              <p>Mohammad Maruf</p>
-            </div>
-          </div>
+          ) : null}
           {/* Address */}
-          <div className=" flex  gap-3 text-[12px]">
-            <div className="text-[16px]">
-              <IoMdHome />
+          {address && (
+            <div className=" flex  gap-3 text-[12px]">
+              <div className="text-[16px]">
+                <IoMdHome />
+              </div>
+              <div className="text-style">
+                <h3 className=" font-semibold">Address</h3>
+                <p>{contentAddress}</p>
+              </div>
             </div>
-            <div className="text-style">
-              <h3 className=" font-semibold">Address</h3>
-              <p>Chandpur, Bangladeh, Chandpur-3600</p>
-            </div>
-          </div>
+          )}
           {/* Phone */}
-          <div className=" flex  gap-3 text-[12px]">
-            <div className="text-[14px]">
-              <FaPhone />
+          {phone && (
+            <div className=" flex  gap-3 text-[12px]">
+              <div className="text-[14px]">
+                <FaPhone />
+              </div>
+              <div className="text-style">
+                <h3 className=" font-semibold">Phone number</h3>
+                <p>{phone}</p>
+              </div>
             </div>
-            <div className="text-style">
-              <h3 className=" font-semibold">Phone number</h3>
-              <p>01648-312050</p>
-            </div>
-          </div>
+          )}
           {/* email */}
-          <div className=" flex  gap-3 text-[12px] w-full  ">
-            <div className="text-[14px] ">
-              <IoMailSharp />
+          {email && (
+            <div className=" flex  gap-3 text-[12px] w-full  ">
+              <div className="text-[14px] ">
+                <IoMailSharp />
+              </div>
+              <div className="text-style">
+                <h3 className="font-semibold">Email</h3>
+                <p className=" ">{email}</p>
+              </div>
             </div>
-            <div className="text-style">
-              <h3 className="font-semibold">Email</h3>
-              <p className=" ">mohammadmarufgazi@gmail.com</p>
-            </div>
-          </div>
+          )}
           {/* date of birth */}
-          <div className=" flex  gap-3 text-[12px] w-full  ">
-            <div className="text-[14px] ">
-              <FaCalendarAlt />
+          {dateOfBirth && (
+            <div className=" flex  gap-3 text-[12px] w-full  ">
+              <div className="text-[14px] ">
+                <FaCalendarAlt />
+              </div>
+              <div className="text-style">
+                <h3 className="font-semibold">Date of birth</h3>
+                <p className=" ">{dateOfBirth}</p>
+              </div>
             </div>
-            <div className="text-style">
-              <h3 className="font-semibold">Date of birth</h3>
-              <p className=" ">12/08/2001</p>
+          )}
+          {/* Place of birth*/}
+          {placeOfBirth && (
+            <div className=" flex  gap-3 text-[12px] w-full  ">
+              <div className="text-[14px] ">
+                <FaLocationDot />
+              </div>
+              <div className="text-style">
+                <h3 className="font-semibold">Place of birth</h3>
+                <p className=" ">{placeOfBirth}</p>
+              </div>
             </div>
+          )}
+          {/* Gender */}
+          {gender && (
+            <div className=" flex  gap-3 text-[12px] w-full  ">
+              <div className="text-[16px] ">
+                <ImManWoman />
+              </div>
+              <div className="text-style">
+                <h3 className="font-semibold">Gender</h3>
+                <p className=" ">{gender}</p>
+              </div>
+            </div>
+          )}
+          {/* Driving licence */}
+          {drvingLicenses && (
+            <div className=" flex  gap-3 text-[12px] w-full  ">
+              <div className="text-[16px] ">
+                <FaCarAlt />
+              </div>
+              <div className="text-style">
+                <h3 className="font-semibold">Driving Licence</h3>
+                <p className=" ">{drvingLicenses}</p>
+              </div>
+            </div>
+          )}
+          {/* Nationality */}
+          {nationality && (
+            <div className=" flex  gap-3 text-[12px] w-full  ">
+              <div className="text-[16px] ">
+                <MdLanguage />
+              </div>
+              <div className="text-style">
+                <h3 className="font-semibold">Nationality</h3>
+                <p className=" ">{nationality}</p>
+              </div>
+            </div>
+          )}
+          {/* Marital Status */}
+          {maritalStatus && (
+            <div className=" flex  gap-3 text-[12px] w-full  ">
+              <div className="text-[16px] ">
+                <FaIdCardClip />
+              </div>
+              <div className="text-style">
+                <h3 className="font-semibold">Marital Status</h3>
+                <p className=" ">{maritalStatus}</p>
+              </div>
+            </div>
+          )}
+          {/* LinkedIn */}
+          {linkedin && (
+            <div className=" flex  gap-3 text-[12px] w-full  ">
+              <div className="text-[16px] ">
+                <LuLink />
+              </div>
+              <div className="text-style">
+                <h3 className="font-semibold">LinkedIn</h3>
+                <p className=" ">{linkedin}</p>
+              </div>
+            </div>
+          )}
+          {/* Website */}
+          {personalWebsite && (
+            <div className=" flex  gap-3 text-[12px] w-full  ">
+              <div className="text-[16px] ">
+                <MdComputer />
+              </div>
+              <div className="text-style">
+                <h3 className="font-semibold">Website</h3>
+                <p className=" ">{personalWebsite}</p>
+              </div>
+            </div>
+          )}
+        </div>
+        {/* skills */}
+        <div className=" text-white space-y-2">
+          <h3 className=" uppercase font-semibold">Skills</h3>
+          <div>
+            {skillsData.map((skill) => {
+              const { id, title, level } = skill;
+              let contentRating;
+              if (level === "Beginner") {
+                contentRating = (
+                  <div className=" flex items-center gap-1">
+                    <FaStar />
+                  </div>
+                );
+              } else if (level === "Average") {
+                contentRating = (
+                  <div className=" flex items-center gap-1">
+                    <FaStar />
+                    <FaStar />
+                  </div>
+                );
+              } else if (level === "Skillful") {
+                contentRating = (
+                  <div className=" flex items-center gap-1">
+                    <FaStar />
+                    <FaStar />
+                    <FaStar />
+                  </div>
+                );
+              } else if (level === "Experienced") {
+                contentRating = (
+                  <div className=" flex items-center gap-1">
+                    <FaStar />
+                    <FaStar />
+                    <FaStar />
+                    <FaStar />
+                  </div>
+                );
+              } else if (level === "Expert") {
+                contentRating = (
+                  <div className=" flex items-center gap-1">
+                    <FaStar />
+                    <FaStar />
+                    <FaStar />
+                    <FaStar />
+                    <FaStar />
+                  </div>
+                );
+              }
+
+              return (
+                <div
+                  key={id}
+                  className="  flex items-center justify-between text-[12px] font-semibold"
+                >
+                  <div className="text-style">{title}</div>
+                  {contentRating}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
