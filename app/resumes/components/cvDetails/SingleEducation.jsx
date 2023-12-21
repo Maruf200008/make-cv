@@ -9,6 +9,7 @@ import useResumeStore from "@/app/store/useResumesStore";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCalendarDays } from "react-icons/fa6";
+import { TiTick } from "react-icons/ti";
 
 export default function SingleEducation({ id }) {
   const [skillToggle, setSkillToggle] = useState(true);
@@ -72,9 +73,15 @@ export default function SingleEducation({ id }) {
             onClick={() => setSkillToggle(!skillToggle)}
             className=" flex items-center gap-4 mt-5 cursor-pointer group"
           >
-            <div className=" text-2xl bg-neutral-100 p-2 rounded-full group-hover:bg-neutral-200 ease-in duration-300">
-              <IoDocumentOutline />
-            </div>
+            {institution && degree && location && startDate ? (
+              <div className=" text-2xl bg-black text-white p-2 rounded-full">
+                <TiTick />
+              </div>
+            ) : (
+              <div className=" text-2xl bg-neutral-100 p-2 rounded-full group-hover:bg-neutral-200 ease-in duration-300">
+                <IoDocumentOutline />
+              </div>
+            )}
             <div>
               <p className="focus:outline-none font-semibold text-lg text-neutral-500">
                 {institution !== "" ? institution : "Untitled"}

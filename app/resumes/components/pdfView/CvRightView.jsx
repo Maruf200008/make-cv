@@ -15,6 +15,7 @@ export default function CvRightView() {
     educationHeading,
     workExperienceHeading,
   } = resumeData || {};
+  console.log(workExperience)
 
   return (
     <div className="p-4">
@@ -118,17 +119,18 @@ export default function CvRightView() {
                   key={id}
                   className=" grid grid-cols-5 text-[11px]  text-gray-600"
                 >
+                  <div className=" flex gap-2 text-[10px] col-span-2     ">
                   {startDate && endDate && (
                     <>
-                      <div className=" flex gap-1 text-[12px] col-span-2    ">
-                        <div className="mt-[2px]">
-                          <GoDot />
-                        </div>
-
-                        <div className="text-[10px]">{`${startDate} - ${endDate}`}</div>
+                      <div className=" mt-[2px]">
+                        <GoDot />
                       </div>
+
+                      <div>{`${startDate} - ${endDate}`}</div>
                     </>
                   )}
+                </div>
+                 
                   <div className=" col-span-3 ">
                     <h1 className=" font-bold">{degree}</h1>
                     {institution || loaction ? (

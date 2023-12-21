@@ -22,26 +22,36 @@ export default function SingleExperience({ id }) {
   const [endStringDate, setendStringDate] = useState("");
   const [isWroking, setIsWorking] = useState(false);
   const [summary, setSummary] = useState("");
+  const {
+    deleteExperince,
+    UpdateJobTitle,
+    UpdateCompany,
+    UpdateLocation,
+    UpdateStartDate,
+    UpdateExperinceEndDate,
+    UpdateExperinceSummary,
+  } = useResumeStore((state) => state);
 
   const handleCheckBox = () => {
     if (!isWroking) {
       setIsWorking(!isWroking);
       setendStringDate("Present");
-      UpdateEndDate({ id: id, endDate: "Present" });
+      UpdateExperinceEndDate({ id: id, endDate: "Present" });
     } else {
       setIsWorking(!isWroking);
       const formattedDate = new Date(endDate).toLocaleDateString("en-GB");
       if (endDate) {
         setendStringDate(formattedDate);
-        UpdateEndDate({ id: id, endDate: formattedDate });
+        UpdateExperinceEndDate({ id: id, endDate: formattedDate });
       } else {
         setendStringDate(" ");
-        UpdateEndDate({ id: id, endDate: " " });
+        UpdateExperinceEndDate({ id: id, endDate: " " });
       }
     }
   };
 
   const handleStartDate = (date) => {
+   
     setStartDate(date);
     const formattedDate = new Date(date).toLocaleDateString("en-GB");
     setStartStringDate(formattedDate);
@@ -49,21 +59,14 @@ export default function SingleExperience({ id }) {
   };
 
   const handleEndDate = (date) => {
+    console.log(date)
     setEndDate(date);
     const formattedDate = new Date(date).toLocaleDateString("en-GB");
     setendStringDate(formattedDate);
-    UpdateEndDate({ id: id, endDate: formattedDate });
+    UpdateExperinceEndDate({ id: id, endDate: formattedDate });
   };
 
-  const {
-    deleteExperince,
-    UpdateJobTitle,
-    UpdateCompany,
-    UpdateLocation,
-    UpdateStartDate,
-    UpdateEndDate,
-    UpdateSummary,
-  } = useResumeStore((state) => state);
+  
 
   return (
     <div>
@@ -238,7 +241,7 @@ export default function SingleExperience({ id }) {
               value={summary}
               onChange={(e) => {
                 setSummary(e.target.value);
-                UpdateSummary({ id: id, summary: e.target.value });
+                UpdateExperinceSummary({ id: id, summary: e.target.value });
               }}
               cols="30"
               rows="8"

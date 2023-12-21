@@ -282,9 +282,10 @@ const useResumeStore = create((set) => ({
       })
     ),
 
-  UpdateEndDate: ({ id, endDate }) =>
+  UpdateExperinceEndDate: ({ id, endDate }) =>
     set(
       produce((draft) => {
+        console.log(endDate)
         draft?.resumeData?.workExperience?.map((experince) => {
           if (experince?.id == id) {
             experince.endDate = endDate;
@@ -292,7 +293,7 @@ const useResumeStore = create((set) => ({
         });
       })
     ),
-  UpdateSummary: ({ id, summary }) =>
+  UpdateExperinceSummary: ({ id, summary }) =>
     set(
       produce((draft) => {
         draft?.resumeData?.workExperience?.map((experince) => {

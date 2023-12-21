@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "html2canvas": "^1.4.1",
     "immer": "^10.0.3",
+    "jspdf": "^2.5.1",
     "next": "14.0.4",
     "react": "^18",
     "react-datepicker": "^4.24.0",
