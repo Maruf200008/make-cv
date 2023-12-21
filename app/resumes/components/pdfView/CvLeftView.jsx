@@ -10,34 +10,6 @@ import { LuLink } from "react-icons/lu";
 import { MdComputer, MdLanguage } from "react-icons/md";
 
 export default function CvLeftView() {
-  const skillsData = [
-    {
-      id: 1,
-      title: "Node",
-      level: "Beginner",
-    },
-    {
-      id: 2,
-      title: "Next js",
-      level: "Average",
-    },
-    {
-      id: 3,
-      title: "Redux",
-      level: "Skillful",
-    },
-    {
-      id: 4,
-      title: "Tailwind Css",
-      level: "Experienced",
-    },
-    {
-      id: 5,
-      title: "TypeScript",
-      level: "Expert",
-    },
-  ];
-
   const resumeData = useResumeStore((state) => state.resumeData);
   const {
     firstName,
@@ -56,10 +28,13 @@ export default function CvLeftView() {
     nationality,
     maritalStatus,
     linkedin,
+    skills,
     personalWebsite,
+    skillTitle,
+    personalProfileTitle
   } = resumeData || {};
 
-  console.log(gender);
+  console.log( personalProfileTitle)
 
   let contentAddress;
   if (address && !city && !postalCode) {
@@ -71,6 +46,52 @@ export default function CvLeftView() {
   } else if (address && city && postalCode) {
     contentAddress = `${address}, ${city}, ${postalCode}`;
   }
+
+  const checkSkillLeavel = (level) => {
+    let contentRating;
+    if (level === "Beginner") {
+      contentRating = (
+        <div className=" flex items-center gap-1">
+          <FaStar />
+        </div>
+      );
+    } else if (level === "Average") {
+      contentRating = (
+        <div className=" flex items-center gap-1">
+          <FaStar />
+          <FaStar />
+        </div>
+      );
+    } else if (level === "Skillful") {
+      contentRating = (
+        <div className=" flex items-center gap-1">
+          <FaStar />
+          <FaStar />
+          <FaStar />
+        </div>
+      );
+    } else if (level === "Experienced") {
+      contentRating = (
+        <div className=" flex items-center gap-1">
+          <FaStar />
+          <FaStar />
+          <FaStar />
+          <FaStar />
+        </div>
+      );
+    } else if (level === "Expert") {
+      contentRating = (
+        <div className=" flex items-center gap-1">
+          <FaStar />
+          <FaStar />
+          <FaStar />
+          <FaStar />
+          <FaStar />
+        </div>
+      );
+    }
+    return contentRating;
+  };
 
   return (
     <div className=" px-4 my-4">
@@ -86,7 +107,7 @@ export default function CvLeftView() {
         )}
         <div className=" text-white space-y-2 ">
           <h3 className=" uppercase font-semibold ">
-            {personalDetail === "" ? "Personal Details" : personalDetail}
+            {personalProfileTitle === "" ? "Personal Details" : personalProfileTitle}
           </h3>
           {/* name */}
           {firstName || lastName ? (
@@ -239,60 +260,19 @@ export default function CvLeftView() {
         </div>
         {/* skills */}
         <div className=" text-white space-y-2">
-          <h3 className=" uppercase font-semibold">Skills</h3>
+          {skills && skills.length > 0 && <h3 className=" uppercase font-semibold">{skillTitle ? skillTitle : "Skills"}</h3>}
           <div>
-            {skillsData.map((skill) => {
-              const { id, title, level } = skill;
-              let contentRating;
-              if (level === "Beginner") {
-                contentRating = (
-                  <div className=" flex items-center gap-1">
-                    <FaStar />
-                  </div>
-                );
-              } else if (level === "Average") {
-                contentRating = (
-                  <div className=" flex items-center gap-1">
-                    <FaStar />
-                    <FaStar />
-                  </div>
-                );
-              } else if (level === "Skillful") {
-                contentRating = (
-                  <div className=" flex items-center gap-1">
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                  </div>
-                );
-              } else if (level === "Experienced") {
-                contentRating = (
-                  <div className=" flex items-center gap-1">
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                  </div>
-                );
-              } else if (level === "Expert") {
-                contentRating = (
-                  <div className=" flex items-center gap-1">
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                  </div>
-                );
-              }
+            {skills.map((skill) => {
+              const { id, skillTitle, skillLevel } = skill;
+              const level = checkSkillLeavel(skillLevel);
 
               return (
                 <div
                   key={id}
                   className="  flex items-center justify-between text-[12px] font-semibold"
                 >
-                  <div className="text-style">{title}</div>
-                  {contentRating}
+                  <div className="text-style">{skillTitle}</div>
+                  <div>{level}</div>
                 </div>
               );
             })}

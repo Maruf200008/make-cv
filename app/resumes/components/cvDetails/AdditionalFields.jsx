@@ -42,66 +42,6 @@ export default function AdditionalFields() {
     updatePersonalWebsite,
   } = useResumeStore((state) => state);
 
-  const handlePhoneNumber = (e) => {
-    setPhone(e.target.value);
-    updatePhone(e.target.value);
-  };
-
-  const handlePostalcode = (e) => {
-    setPostalCode(e.target.value);
-    updatePostalCode(e.target.value);
-  };
-
-  const handleAddress = (e) => {
-    setAddress(e.target.value);
-    updateAddress(e.target.value);
-  };
-
-  const handleCity = (e) => {
-    setCity(e.target.value);
-    updateCity(e.target.value);
-  };
-
-  const handleDrivingLicenses = (e) => {
-    setDrivingLicenses(e.target.value);
-    updateDrvingLicenses(e.target.value);
-  };
-  const handleGender = (value) => {
-    setGender(value);
-    console.log(value)
-    updateGender(value);
-  };
-  const handleDateofBirth = (date) => {
-    setDateOfBirth(date);
-    const formattedDate = new Date(date).toLocaleDateString("en-GB");
-    updateDateOfBirth(formattedDate);
-  };
-
-  const handleRemoveDateofBirth = () => {
-    setDateOfBirth(null);
-    updateDateOfBirth("");
-  };
-  const handlePlaceofBirth = (e) => {
-    setPlaceOfBirth(e.target.value);
-    updatePlaceOfBirth(e.target.value);
-  };
-  const handleNationality = (e) => {
-    setNationality(e.target.value);
-    updateNationality(e.target.value);
-  };
-  const handleMaritalStatus = (status) => {
-    setMaritalStatus(status);
-    updateMaritalStatus(status);
-  };
-  const handleLinkedin = (e) => {
-    setLinkedin(e.target.value);
-    updatelinkedin(e.target.value);
-  };
-  const handlePersonalWebsite = (e) => {
-    setPersonalWebsite(e.target.value);
-    updatePersonalWebsite(e.target.value);
-  };
-
   return (
     <div>
       <div className=" border-b pb-5">
@@ -125,7 +65,10 @@ export default function AdditionalFields() {
                 </label>
                 <input
                   value={phone}
-                  onChange={handlePhoneNumber}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                    updatePhone(e.target.value);
+                  }}
                   type="text"
                   className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
                 />
@@ -134,7 +77,10 @@ export default function AdditionalFields() {
                 <label className=" text-neutral-500 text-lg">Address</label>
                 <input
                   value={address}
-                  onChange={handleAddress}
+                  onChange={(e) => {
+                    setAddress(e.target.value);
+                    updateAddress(e.target.value);
+                  }}
                   type="text"
                   className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
                 />
@@ -146,7 +92,10 @@ export default function AdditionalFields() {
                 <label className=" text-neutral-500 text-lg">Postal code</label>
                 <input
                   value={postalcode}
-                  onChange={handlePostalcode}
+                  onChange={(e) => {
+                    setPostalCode(e.target.value);
+                    updatePostalCode(e.target.value);
+                  }}
                   type="text"
                   className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
                 />
@@ -155,7 +104,10 @@ export default function AdditionalFields() {
                 <label className=" text-neutral-500 text-lg">City</label>
                 <input
                   value={city}
-                  onChange={handleCity}
+                  onChange={(e) => {
+                    setCity(e.target.value);
+                    updateCity(e.target.value);
+                  }}
                   type="text"
                   className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
                 />
@@ -169,23 +121,26 @@ export default function AdditionalFields() {
                 </label>
                 <input
                   value={drivingLicenses}
-                  onChange={handleDrivingLicenses}
+                  onChange={(e) => {
+                    setDrivingLicenses(e.target.value);
+                    updateDrvingLicenses(e.target.value);
+                  }}
                   type="text"
                   className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
                 />
               </div>
               <div className=" space-y-1">
                 <label className=" text-neutral-500 text-lg">Gender</label>
-                <select className="border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full">
-                  <option value="Male" onChange={() => handleGender("Male")}>
-                    Male
-                  </option>
-                  <option
-                    value="Female"
-                    onChange={() => handleGender("Female")}
-                  >
-                    Female
-                  </option>
+                <select
+                  value={gender}
+                  onChange={(e) => {
+                    setGender(e.target.value);
+                    updateGender(e.target.value);
+                  }}
+                  className="border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
+                >
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
                 </select>
               </div>
             </div>
@@ -197,7 +152,10 @@ export default function AdditionalFields() {
                     Date of birth
                   </label>
                   <div
-                    onClick={() => handleRemoveDateofBirth()}
+                    onClick={() => {
+                      setDateOfBirth(null);
+                      updateDateOfBirth("");
+                    }}
                     className=" p-1 rounded-md text-neutral-500 text-xl hover:bg-neutral-200 ease-in duration-300"
                   >
                     <MdOutlineRefresh />
@@ -209,7 +167,13 @@ export default function AdditionalFields() {
                       <ReactDatePicker
                         className=" focus:outline-none"
                         selected={dateOfBirth}
-                        onChange={(date) => handleDateofBirth(date)}
+                        onChange={(date) => {
+                          setDateOfBirth(date);
+                          const formattedDate = new Date(
+                            date
+                          ).toLocaleDateString("en-GB");
+                          updateDateOfBirth(formattedDate);
+                        }}
                       />
                     </div>
                     <div className=" text-neutral-600">
@@ -226,7 +190,10 @@ export default function AdditionalFields() {
                 <input
                   type="text"
                   value={placeOfBirth}
-                  onChange={handlePlaceofBirth}
+                  onChange={(e) => {
+                    setPlaceOfBirth(e.target.value);
+                    updatePlaceOfBirth(e.target.value);
+                  }}
                   className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
                 />
               </div>
@@ -237,7 +204,10 @@ export default function AdditionalFields() {
                 <label className=" text-neutral-500 text-lg">Nationality</label>
                 <input
                   value={nationality}
-                  onChange={handleNationality}
+                  onChange={(e) => {
+                    setNationality(e.target.value);
+                    updateNationality(e.target.value);
+                  }}
                   type="text"
                   className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
                 />
@@ -246,37 +216,19 @@ export default function AdditionalFields() {
                 <label className=" text-neutral-500 text-lg">
                   Marital Status
                 </label>
-                <select className="border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full">
-                  <option
-                    value="Unmarried"
-                    onChange={() => handleMaritalStatus("Unmarried")}
-                  >
-                    Unmarried
-                  </option>
-                  <option
-                    value="Living together"
-                    onChange={() => handleMaritalStatus("Living together")}
-                  >
-                    Living together
-                  </option>
-                  <option
-                    value="Married"
-                    onChange={() => handleMaritalStatus("Married")}
-                  >
-                    Married
-                  </option>
-                  <option
-                    value="Divorced"
-                    onChange={() => handleMaritalStatus("Divorced")}
-                  >
-                    Divorced
-                  </option>
-                  <option
-                    value="Widowhood"
-                    onChange={() => handleMaritalStatus("Widowhood")}
-                  >
-                    Widowhood
-                  </option>
+                <select
+                  value={maritalStatus}
+                  onChange={(e) => {
+                    setMaritalStatus(e.target.value);
+                    updateMaritalStatus(e.target.value);
+                  }}
+                  className="border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
+                >
+                  <option value="Unmarried">Unmarried</option>
+                  <option value="Living together">Living together</option>
+                  <option value="Married">Married</option>
+                  <option value="Divorced">Divorced</option>
+                  <option value="Widowhood">Widowhood</option>
                 </select>
               </div>
             </div>
@@ -286,7 +238,10 @@ export default function AdditionalFields() {
                 <label className=" text-neutral-500 text-lg">Linkedin</label>
                 <input
                   value={linkedin}
-                  onChange={handleLinkedin}
+                  onChange={(e) => {
+                    setLinkedin(e.target.value);
+                    updatelinkedin(e.target.value);
+                  }}
                   type="text"
                   className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
                 />
@@ -298,7 +253,10 @@ export default function AdditionalFields() {
                 </label>
                 <input
                   value={personalWebsite}
-                  onChange={handlePersonalWebsite}
+                  onChange={(e) => {
+                    setPersonalWebsite(e.target.value);
+                    updatePersonalWebsite(e.target.value);
+                  }}
                   type="text"
                   className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
                 />

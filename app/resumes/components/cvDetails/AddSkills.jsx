@@ -4,20 +4,27 @@ import { FaPlus } from "react-icons/fa6";
 import { MdEdit } from "react-icons/md";
 import { v4 as uuidv4 } from "uuid";
 
+import useResumeStore from "@/app/store/useResumesStore";
 import SingleSkill from "./SingleSkill";
 
 export default function AddSkills() {
   const [skillsTitle, setSkillsTitle] = useState("Skills");
+  const { addSkill, deleteSkill, updateSkillHeading } = useResumeStore(
+    (state) => state
+  );
+  const { skills } = useResumeStore((state) => state.resumeData);
 
-  const [showSkillComponents, setShowSkillComponents] = useState([]);
-  const addShowComponents = () => {
-    const uniqueId = uuidv4();
-    setShowSkillComponents([...showSkillComponents, { id: uniqueId }]);
+  const handleAddSkill = () => {
+    const newSkill = {
+      id: uuidv4(),
+      skillTitle: "",
+      skillLevel: "",
+    };
+    addSkill(newSkill);
   };
 
   const handleDelete = (id) => {
-    const filterArray = showSkillComponents.filter((value) => value.id !== id);
-    setShowSkillComponents(filterArray);
+    deleteSkill(id);
   };
 
   return (
@@ -28,7 +35,10 @@ export default function AddSkills() {
             type="text"
             placeholder="Skills"
             className=" focus:outline-none text-[20px] font-semibold py-2 w-[100px]"
-            onChange={(e) => setSkillsTitle(e.target.value)}
+            onChange={(e) => {
+              setSkillsTitle(e.target.value);
+              updateSkillHeading(e.target.value);
+            }}
             width={20}
             value={skillsTitle}
           />
@@ -41,7 +51,7 @@ export default function AddSkills() {
           hard skills.
         </p>
         <div className=" space-y-3">
-          {showSkillComponents.map((item) => {
+          {skills.map((item) => {
             return (
               <SingleSkill
                 key={item.id}
@@ -53,7 +63,7 @@ export default function AddSkills() {
         </div>
 
         <div
-          onClick={() => addShowComponents()}
+          onClick={handleAddSkill}
           className=" flex items-center gap-4 mt-5 cursor-pointer group "
         >
           <div className=" p-3 bg-red-100 rounded-full text-primary group-hover:bg-red-200 ease-in duration-300">

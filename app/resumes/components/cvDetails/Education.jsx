@@ -4,20 +4,27 @@ import { FaPlus } from "react-icons/fa6";
 import { MdEdit } from "react-icons/md";
 import { v4 as uuidv4 } from "uuid";
 
+import useResumeStore from "@/app/store/useResumesStore";
 import SingleEducation from "./SingleEducation";
 
 export default function Education() {
   const [educationTitle, setEducationTitle] = useState("Education");
+  const { addEudcation, updateEducationHeading } = useResumeStore(
+    (state) => state
+  );
+  const { education } = useResumeStore((state) => state.resumeData);
 
-  const [showSkillComponents, setShowSkillComponents] = useState([]);
-  const addShowComponents = () => {
-    const uniqueId = uuidv4();
-    setShowSkillComponents([...showSkillComponents, { id: uniqueId }]);
-  };
-
-  const handleDelete = (id) => {
-    const filterArray = showSkillComponents.filter((value) => value.id !== id);
-    setShowSkillComponents(filterArray);
+  const handleAddEducation = () => {
+    const newEducation = {
+      id: uuidv4(),
+      institution: "",
+      degree: "",
+      loaction: "",
+      startDate: "",
+      endDate: "",
+      summary: "",
+    };
+    addEudcation(newEducation);
   };
 
   return (
@@ -28,7 +35,10 @@ export default function Education() {
             type="text"
             placeholder="Education"
             className=" focus:outline-none text-[20px] font-semibold py-2 w-[150px]"
-            onChange={(e) => setEducationTitle(e.target.value)}
+            onChange={(e) => {
+              setEducationTitle(e.target.value);
+              updateEducationHeading(e.target.value);
+            }}
             width={20}
             value={educationTitle}
           />
@@ -42,19 +52,13 @@ export default function Education() {
           grades).
         </p>
         <div className=" space-y-3">
-          {showSkillComponents.map((item) => {
-            return (
-              <SingleEducation
-                key={item.id}
-                id={item.id}
-                handleDelete={handleDelete}
-              />
-            );
+          {education.map((item) => {
+            return <SingleEducation key={item.id} id={item.id} />;
           })}
         </div>
 
         <div
-          onClick={() => addShowComponents()}
+          onClick={handleAddEducation}
           className=" flex items-center gap-4 mt-5 cursor-pointer group "
         >
           <div className=" p-3 bg-red-100 rounded-full text-primary group-hover:bg-red-200 ease-in duration-300">

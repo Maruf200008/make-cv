@@ -34,54 +34,10 @@ export default function PersonalDetails() {
     updatePosition,
     updatePersonalProfileTitle,
     updatePersonalProfile,
-    updatePersonalDetail,
   } = useResumeStore((state) => state);
 
   const handleImageClick = () => {
     imgRef.current.click();
-  };
-
-  const handlePersonalDetails = (e) => {
-    setPersonalDetails(e.target.value);
-    updatePersonalDetail(e.target.value);
-  };
-
-  const handleFirstName = (e) => {
-    setFirstName(e.target.value);
-
-    updateFirstName(e.target.value);
-  };
-
-  const handleLastName = (e) => {
-    setLastName(e.target.value);
-    updateLastName(e.target.value);
-  };
-  const handlePhoto = (e) => {
-    e.preventDefault();
-    setPhoto(e.target.files[0]);
-    updatePhoto(e.target.files[0]);
-  };
-
-  const handleRemovePhoto = () => {
-    setPhoto("");
-    updatePhoto("");
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-    updateEmail(e.target.value);
-  };
-  const handlePosition = (e) => {
-    setPosition(e.target.value);
-    updatePosition(e.target.value);
-  };
-  const handlePersonalProfile = (e) => {
-    setPersonalProfile(e.target.value);
-    updatePersonalProfile(e.target.value);
-  };
-  const handlePersonalProfileTitle = (e) => {
-    setPersonalProfileTitle(e.target.value);
-    updatePersonalProfileTitle(e.target.value);
   };
 
   return (
@@ -92,8 +48,10 @@ export default function PersonalDetails() {
           type="text"
           placeholder="Personal Details"
           className=" focus:outline-none text-[25px] font-extrabold py-2 w-[220px]"
-          onChange={handlePersonalDetails}
-          width={20}
+          onChange={(e) => {
+            setPersonalDetails(e.target.value);
+            updatePersonalProfileTitle(e.target.value);
+          }}
           value={personalDetails}
         />
         <div className=" text-[25px] text-neutral-500">
@@ -106,7 +64,10 @@ export default function PersonalDetails() {
           <label className=" text-neutral-500 text-lg">First name</label>
           <input
             value={firstName}
-            onChange={handleFirstName}
+            onChange={(e) => {
+              setFirstName(e.target.value);
+              updateFirstName(e.target.value);
+            }}
             type="text"
             className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
           />
@@ -115,7 +76,10 @@ export default function PersonalDetails() {
           <label className=" text-neutral-500 text-lg">Last name</label>
           <input
             value={lastName}
-            onChange={handleLastName}
+            onChange={(e) => {
+              setLastName(e.target.value);
+              updateLastName(e.target.value);
+            }}
             type="text"
             className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
           />
@@ -126,7 +90,10 @@ export default function PersonalDetails() {
         <div className=" flex gap-4 items-center cursor-pointer">
           <label className=" text-neutral-500 text-lg">Photo</label>
           <div
-            onClick={handleRemovePhoto}
+            onClick={() => {
+              setPhoto("");
+              updatePhoto("");
+            }}
             className=" p-1 rounded-md text-neutral-500 text-xl hover:bg-neutral-200 ease-in duration-300"
           >
             <MdOutlineRefresh />
@@ -154,7 +121,10 @@ export default function PersonalDetails() {
             <input
               type="file"
               ref={imgRef}
-              onChange={handlePhoto}
+              onChange={(e) => {
+                setPhoto(e.target.files[0]);
+                updatePhoto(e.target.files[0]);
+              }}
               className=" hidden"
             />
           </div>
@@ -171,7 +141,10 @@ export default function PersonalDetails() {
               </p>
             </label>
             <input
-              onChange={handlePhoto}
+              onChange={(e) => {
+                setPhoto(e.target.files[0]);
+                updatePhoto(e.target.files[0]);
+              }}
               type="file"
               ref={imgRef}
               className=" hidden"
@@ -185,7 +158,10 @@ export default function PersonalDetails() {
         <input
           value={email}
           type="email"
-          onChange={handleEmail}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            updateEmail(e.target.value);
+          }}
           className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
         />
       </div>
@@ -195,7 +171,10 @@ export default function PersonalDetails() {
         <input
           placeholder="e.g. Service Designer"
           value={position}
-          onChange={handlePosition}
+          onChange={(e) => {
+            setPosition(e.target.value);
+            updatePosition(e.target.value);
+          }}
           type="text"
           className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
         />
@@ -208,7 +187,10 @@ export default function PersonalDetails() {
             type="text"
             placeholder="Personal profile"
             className=" focus:outline-none text-[20px] font-semibold py-2 w-[180px]"
-            onChange={handlePersonalProfileTitle}
+            onChange={(e) => {
+              setPersonalProfileTitle(e.target.value);
+              updatePersonalProfileTitle(e.target.value);
+            }}
             width={20}
             value={personalProfileTitle}
           />
@@ -224,7 +206,10 @@ export default function PersonalDetails() {
           <textarea
             className=" w-full focus:outline-none mt-3 border rounded-md resize-none p-4"
             value={personalProfile}
-            onChange={handlePersonalProfile}
+            onChange={(e) => {
+              setPersonalProfile(e.target.value);
+              updatePersonalProfile(e.target.value);
+            }}
             cols="30"
             rows="10"
           ></textarea>

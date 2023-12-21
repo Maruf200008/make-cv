@@ -4,21 +4,30 @@ import { FaPlus } from "react-icons/fa6";
 import { MdEdit } from "react-icons/md";
 import { v4 as uuidv4 } from "uuid";
 
+import useResumeStore from "@/app/store/useResumesStore";
 import SingleExperience from "./SingleExperience";
 
 export default function WorkExperiece() {
   const [workExperiencTitle, setWorkExperienceTitel] =
     useState("Work experience");
 
-  const [showSkillComponents, setShowSkillComponents] = useState([]);
-  const addShowComponents = () => {
-    const uniqueId = uuidv4();
-    setShowSkillComponents([...showSkillComponents, { id: uniqueId }]);
-  };
+  const { addExperince, updateExperinceHeading } = useResumeStore((state) => state);
+  const { workExperience } = useResumeStore((state) => state.resumeData);
 
-  const handleDelete = (id) => {
-    const filterArray = showSkillComponents.filter((value) => value.id !== id);
-    setShowSkillComponents(filterArray);
+
+
+
+  const handleAddExperience = () => {
+    const newExperience = {
+      id: uuidv4(),
+      jobTitle: "",
+      company: "",
+      location: "",
+      startDate: "",
+      endDate: "",
+      summary: "",
+    };
+    addExperince(newExperience);
   };
 
   return (
@@ -29,7 +38,10 @@ export default function WorkExperiece() {
             type="text"
             placeholder="Work experience"
             className=" focus:outline-none text-[20px] font-semibold py-2 w-[200px]"
-            onChange={(e) => setWorkExperienceTitel(e.target.value)}
+            onChange={(e) => {
+              setWorkExperienceTitel(e.target.value)
+              updateExperinceHeading(e.target.value)
+            }}
             width={20}
             value={workExperiencTitle}
           />
@@ -43,19 +55,13 @@ export default function WorkExperiece() {
           possible.
         </p>
         <div className=" space-y-3">
-          {showSkillComponents.map((item) => {
-            return (
-              <SingleExperience
-                key={item.id}
-                id={item.id}
-                handleDelete={handleDelete}
-              />
-            );
+          {workExperience.map((experience) => {
+            return <SingleExperience key={experience.id} id={experience.id} />;
           })}
         </div>
 
         <div
-          onClick={() => addShowComponents()}
+          onClick={handleAddExperience}
           className="flex items-center gap-4 mt-5 cursor-pointer group"
         >
           <div className="p-3 bg-red-100 rounded-full text-primary group-hover:bg-red-200 ease-in duration-300">

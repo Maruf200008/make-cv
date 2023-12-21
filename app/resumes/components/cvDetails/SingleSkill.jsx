@@ -2,14 +2,16 @@
 import { useState } from "react";
 import { IoDocumentOutline } from "react-icons/io5";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { TiTick } from "react-icons/ti";
 
+import useResumeStore from "@/app/store/useResumesStore";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 export default function SingleSkill({ id, handleDelete }) {
   const [skillToggle, setSkillToggle] = useState(true);
-  const [lavel, setLavel] = useState("Beginner");
+  const [lavel, setLavel] = useState("");
   const [skillIndex, setSkillIndex] = useState(0);
-  const [skill, setSkill] = useState("Untitled");
+  const [skill, setSkill] = useState("");
   const skillData = [
     "Beginner",
     "Average",
@@ -18,13 +20,17 @@ export default function SingleSkill({ id, handleDelete }) {
     "Expert",
   ];
 
-  console.log(lavel);
+  const { updateSkillTitle, updateSkillLavel } = useResumeStore(
+    (state) => state
+  );
 
   const handleSkill = (value) => {
     const { index, skillLavel } = value;
     setSkillIndex(index);
     setLavel(skillLavel);
+    updateSkillLavel(value);
   };
+
   return (
     <div>
       <div>
@@ -33,9 +39,15 @@ export default function SingleSkill({ id, handleDelete }) {
             onClick={() => setSkillToggle(!skillToggle)}
             className=" flex items-center gap-4 mt-5 cursor-pointer group"
           >
-            <div className=" text-2xl bg-neutral-100 p-2 rounded-full group-hover:bg-neutral-200 ease-in duration-300">
-              <IoDocumentOutline />
-            </div>
+            {lavel && skill !== "" ? (
+              <div className=" text-2xl bg-black text-white p-2 rounded-full">
+                <TiTick />
+              </div>
+            ) : (
+              <div className=" text-2xl bg-neutral-100 p-2 rounded-full group-hover:bg-neutral-200 ease-in duration-300">
+                <IoDocumentOutline />
+              </div>
+            )}
             <p className="focus:outline-none font-semibold text-lg text-neutral-500">
               {skill !== "" ? skill : "Untitled"}
             </p>
@@ -65,14 +77,19 @@ export default function SingleSkill({ id, handleDelete }) {
             <input
               placeholder="e.g. Service Designer"
               type="text"
-              onChange={(e) => setSkill(e.target.value)}
+              onChange={(e) => {
+                setSkill(e.target.value);
+                updateSkillTitle({ id: id, title: e.target.value });
+              }}
               className=" border border-r-neutral-200 rounded-md p-4 focus:outline-none w-full"
             />
           </div>
           <div>
             <div className=" flex items-center justify-between">
               <label className=" text-neutral-500 text-lg">Level</label>
-              <label className=" text-neutral-500 text-lg">{lavel}</label>
+              <label className=" text-neutral-500 text-lg">
+                {lavel === "" ? "Beginner" : lavel}
+              </label>
             </div>
 
             <div>
@@ -86,6 +103,7 @@ export default function SingleSkill({ id, handleDelete }) {
                             key={index}
                             onClick={() =>
                               handleSkill({
+                                id: id,
                                 index: index + 1,
                                 skillLavel: data,
                               })
