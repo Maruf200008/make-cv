@@ -4,9 +4,9 @@ import tick from "../images/tick.png";
 export default function IndustryStandard() {
   return (
     <div>
-      <div className=" flex gap-[60px] justify-between ">
-        <div className=" space-y-7 w-[30%]">
-          <h1 className=" text-[60px] font-extrabold leading-[70px]">
+      <div className=" flex flex-col lg:flex-row gap-[60px] justify-between ">
+        <div className=" space-y-7 lg:w-[40%] p-4">
+          <h1 className=" text-[30px] text-center sm:text-[60px] lg:text-[30px] lg:text-left lg:leading-[40px] xl:text-[45px] xl:leading-[55px] font-extrabold sm:leading-[70px]">
             The industry standard CV builder
           </h1>
           <p className=" text-neutral-600">

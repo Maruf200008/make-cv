@@ -2,8 +2,8 @@ export default function Footer() {
   return (
     <div>
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 mt-[160px] mb-[50px]">
-        <div className=" grid grid-cols-5 gap-5 w-full">
-          <div>
+        <div className=" grid lg:grid-cols-5  grid-cols-2 sm:grid-cols-3 md:grid-cols-4  gap-5 w-full">
+          <div className=" col-span-2 sm:col-span-1">
             <h1 className=" text-[25px] font-extrabold text-primary">
               Make CV
             </h1>
