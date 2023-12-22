@@ -20,7 +20,7 @@ Create Your CV Right Away — Land Your Dream Job With One Of Our Templates. Cre
 👉 Install dependencies: npm install
 👉 Run the development server: npm run dev
 👉 Open the application in your browser at http://localhost:3000
-👉 Live URL Link https://frontend-task-self.vercel.app
+👉 Live URL Link https://make-cv-silk.vercel.app
 
 Thank you for being a part of our frontend web application project! We hope you enjoy using the application as much as we enjoyed building it. If you have any questions or concerns, don't hesitate to reach out to our team.
 
